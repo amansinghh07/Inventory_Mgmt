@@ -50,5 +50,8 @@ export default class ProductController {
     if (!productfound) {
       res.status(401).send("product not found..");
     }
+    ProductModel.delete(id);
+    let products = ProductModel.get();
+    res.render("product", { products });
   }
 }

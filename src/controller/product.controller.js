@@ -23,7 +23,9 @@ export default class ProductController {
     res.render("new-product", { errormessage: null });
   }
   postAddProduct(req, res, next) {
-    ProductModel.add(req.body);
+    const { name, desc, price } = req.body;
+    const imageUrl = "images/" + req.file.filename;
+    ProductModel.add(name, desc, price, imageUrl);
     var products = ProductModel.get();
     res.render("product", { products });
   }

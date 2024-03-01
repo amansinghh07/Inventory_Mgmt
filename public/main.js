@@ -5,7 +5,7 @@ function deleteProduct(id) {
       method: "POST",
     }).then((res) => {
       if (res.ok) {
-        location.reload();
+        window.location.href = "/";
       }
     });
   }

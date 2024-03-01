@@ -6,7 +6,12 @@ const validateMiddlewarePostAddRequest = async (req, res, next) => {
     body("price")
       .isFloat({ gt: 0 })
       .withMessage("Price should be a positive value"),
-    body("imageUrl").isURL().withMessage("Invalid Url"),
+    body("imageUrl").custom((value, { req }) => {
+      if (!req.file) {
+        throw new Error("Image is required");
+      }
+      return true;
+    }),
   ];
   // 2.Run those rules
   await Promise.all(rules.map((rule) => rule.run(req)));

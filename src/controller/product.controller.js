@@ -27,7 +27,7 @@ export default class ProductController {
     const imageUrl = "images/" + req.file.filename;
     ProductModel.add(name, desc, price, imageUrl);
     var products = ProductModel.get();
-    res.render("product", { products });
+    res.render("product", { products, userEmail: req.session.userEmail });
   }
   getUpdateProductView(req, res, next) {
     const id = req.params.id;
@@ -36,6 +36,7 @@ export default class ProductController {
       res.render("update-product", {
         product: productfound,
         errormessage: null,
+        userEmail: req.session.userEmail,
       });
     } else {
       res.status(401).send("product not found..");
@@ -44,7 +45,10 @@ export default class ProductController {
   postUpdateProduct(req, res) {
     ProductModel.update(req.body);
     let product = ProductModel.get();
-    res.render("product", { products: product });
+    res.render("product", {
+      products: product,
+      userEmail: req.session.userEmail,
+    });
   }
   deleteProduct(req, res) {
     const id = req.params.id;
